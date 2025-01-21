@@ -66,12 +66,17 @@ if (capabilities.includes('alarm_smoke')) {
       getOnStart: true
     },
     reportParser: report => {
-      if (report && report['Notification Type'] === 0x01) { // Smoke is type 0x01
-        // Event 0x02 means smoke detected, 0x00 means idle/restore
-        const alarmActive = report['Event'] === 0x02;
-        this.log('Smoke alarm status:', alarmActive);
-        return alarmActive;
+
+      console.log("Notification report", report);
+      
+      if (!report || report['Notification Type'] !== 'Smoke') return null;
+
+      var eventType = report['Event'];
+      if(eventType === 1 || eventType === 3) {
+        console.log("Smoke alarm");
+        return true;
       }
+
       return false;
     }
   });
@@ -99,19 +104,27 @@ if (capabilities.includes('alarm_heat')) {
 if (capabilities.includes('alarm_tamper')) {
   this.registerCapability('alarm_tamper', 'NOTIFICATION', {
     getOpts: {
-      getOnStart: true,
-      pollinterval: 1000, 
+      getOnStart: true
     },
-    
     reportParser: report => {
-      if (report && report['Notification Type'] === 0x07) { // Tamper is type 0x07
-        // Event 0x03 means tamper detected, 0x00 means idle/restore
-        console.log('Tamper report:', report);
-        const alarmActive = report['Event'] === 0x03;
-        this.log('Tamper alarm status:', alarmActive);
-        return alarmActive;
+
+      if (!report || report['Notification Type'] !== 'Home Security') return null;
+     
+      
+      // Fra dokumentasjonen:
+      // Tamper Open : 00 00 00 07 03 00
+      // Tamper Close: 00 00 00 07 00 01 03
+      switch (report['Event']) {
+        case 3: // Tamper åpen
+          // console.log('Tamper detected: Device removed from mounting bracket');
+          return true;
+          
+        case 0: // Tamper lukket
+          // console.log('Tamper restored: Device mounted properly');
+          return false;
       }
-      return false;
+      
+      return null;
     }
   });
 }
@@ -134,14 +147,17 @@ if (capabilities.includes('alarm_co')) {
   });
 }
 
-      // Debug logging for alle rapporter
-      this.registerReportListener('SENSOR_MULTILEVEL', 'SENSOR_MULTILEVEL_REPORT', report => {
-        this.log('Raw SENSOR_MULTILEVEL_REPORT:', JSON.stringify(report, null, 2));
-      });
 
-      this.registerReportListener('BATTERY', 'BATTERY_REPORT', report => {
-        this.log('Raw BATTERY_REPORT:', JSON.stringify(report, null, 2));
-      });
+      // Debug logging for alle rapporter
+      // this.registerReportListener('SENSOR_MULTILEVEL', 'SENSOR_MULTILEVEL_REPORT', report => {
+      //   this.log('Raw SENSOR_MULTILEVEL_REPORT:', JSON.stringify(report, null, 2));
+      // });
+
+      // this.registerReportListener('BATTERY', 'BATTERY_REPORT', report => {
+      //   this.log('Raw BATTERY_REPORT:', JSON.stringify(report, null, 2));
+      // });
+
+      // Heat alarm test funksjonalitet
 
     } catch (err) {
       this.error('Error during initialization:', err);
