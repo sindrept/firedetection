@@ -1,0 +1,52 @@
+{
+  "id": "sdco",
+  "name": {
+    "en": "SDCO-1 firedetector",
+    "no": "SDCO-1 brannvarsler"
+  },
+  "class": "smokealarm",
+  "capabilities": [
+    "onoff",
+    "measure_temperature",
+    "measure_humidity",
+    "measure_battery",
+    "alarm_smoke",
+    "alarm_heat",
+    "alarm_tamper",
+    "alarm_co"
+  ],
+  "capabilitiesOptions": {
+    "measure_temperature": {
+      "preventInsights": false
+    },
+    "measure_humidity": {
+      "preventInsights": false
+    },
+    "measure_battery": {
+      "preventInsights": true
+    }
+  },
+  "platforms": ["local"],
+  "connectivity": ["zwave"],
+  "zwave": {
+    "manufacturerId": [398],
+    "productTypeId": [3],
+    "productId": [26],
+    "learnMode": {
+      "instruction": {
+        "en": "Press the button 3 times within 1.5 seconds",
+        "no": "Trykk på knappen 3 ganger innen 1,5 sekunder"
+      }
+    },
+    "associationGroups": [1],
+    "associationGroupsOptions": {
+      "1": {
+        "hint": {
+          "en": "Lifeline group",
+          "no": "Lifeline gruppe"
+        }
+      }
+    },
+    "defaultConfiguration": []
+  }
+}
