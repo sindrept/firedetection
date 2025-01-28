@@ -14,6 +14,7 @@
     "alarm_heat",
     "alarm_tamper",
     "alarm_co"
+    
   ],
   "capabilitiesOptions": {
     "measure_temperature": {
@@ -26,6 +27,16 @@
       "preventInsights": true
     }
   },
+
+  "energy": {
+    "batteries": ["CR123A"]
+  },
+
+  "images": {
+    "large": "/assets/images/sdco-large.jpg",
+    "small": "/assets/images/sdco-small.jpg"
+  },
+
   "platforms": ["local"],
   "connectivity": ["zwave"],
   "zwave": {

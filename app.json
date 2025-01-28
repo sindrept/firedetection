@@ -20,8 +20,8 @@
   ],
   "permissions": [],
   "images": {
-    "large": "/assets/images/large.png",
-    "small": "/assets/images/small.png"
+    "large": "/assets/images/sdco-large.jpg",
+    "small": "/assets/images/sdco-small.jpg"
   },
   "author": {
     "name": "Sindre Thuv",
@@ -55,6 +55,15 @@
         "measure_battery": {
           "preventInsights": true
         }
+      },
+      "energy": {
+        "batteries": [
+          "CR123A"
+        ]
+      },
+      "images": {
+        "large": "/assets/images/sdco-large.jpg",
+        "small": "/assets/images/sdco-small.jpg"
       },
       "platforms": [
         "local"
